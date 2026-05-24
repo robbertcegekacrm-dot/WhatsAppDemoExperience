@@ -312,22 +312,26 @@ body {
 .wa-msg-row.outgoing { align-self: flex-end;   max-width: 82%; }
 
 .wa-bubble {
-  padding: 7px 9px 20px;
+  padding: 7px 9px 4px 9px;
   border-radius: 8px;
   font-size: 14.5px;
   line-height: 1.5;
   position: relative;
   word-break: break-word;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  color: #111111;
+  min-width: 80px;
 }
 
 .incoming .wa-bubble {
   background: var(--wa-in);
   border-top-left-radius: 0;
+  color: #111111;
 }
 .outgoing .wa-bubble {
   background: var(--wa-out);
   border-top-right-radius: 0;
+  color: #111111;
 }
 
 /* Bubble tails */
@@ -347,14 +351,16 @@ body {
 }
 
 .wa-meta {
-  position: absolute;
-  bottom: 5px; right: 8px;
-  font-size: 10.5px;
-  color: rgba(0,0,0,0.38);
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 2px;
+  font-size: 10.5px;
+  color: rgba(0,0,0,0.38);
   white-space: nowrap;
+  margin-top: 2px;
+  margin-bottom: 1px;
+  margin-right: 2px;
 }
 
 .ticks { color: var(--wa-tick); font-size: 13px; }
@@ -639,8 +645,8 @@ body {
 const TOKEN_ENDPOINT = 'https://c134f6cb54caec12b17f1c07631d84.5b.environment.api.powerplatform.com/powervirtualagents/botsbyschema/new_WhatsAppExperienceAgent/directline/token?api-version=2022-03-01-preview';
 
 // Optioneel: pas de naam en initialen van de agent aan
-const AGENT_NAME    = 'Serviceteam';
-const AGENT_INITIALS = 'ST';
+const AGENT_NAME    = 'De Heus';
+const AGENT_INITIALS = 'DH';
 
 // ═══════════════════════════════════════════════════════
 //  Helpers
