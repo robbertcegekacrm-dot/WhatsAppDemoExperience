@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -622,17 +623,9 @@ body {
   </div><!-- /phone-body -->
 </div><!-- /phone-outer -->
 
-<!-- Config hint -->
-<div class="config-hint">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:rgba(255,255,255,0.4);flex-shrink:0;">
-    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-  </svg>
-  Vervang <code>TOKEN_ENDPOINT</code> bovenin het script met jouw Copilot Studio Direct Line token URL &nbsp;·&nbsp; Zonder token draait de demo in demo-modus
-</div>
-
 <div class="page-footer">
   Powered by Microsoft Copilot Studio &nbsp;·&nbsp; Power Platform &nbsp;·&nbsp; Dynamics 365<br>
-  © Cegeka &nbsp;|&nbsp; Demo v1 — niet voor productiegebruik
+  © Cegeka &nbsp;|&nbsp; Demo — niet voor productiegebruik
 </div>
 
 <!-- Direct Line JS (no UI dependency) -->
@@ -752,11 +745,6 @@ function setStatus(txt) {
 }
 
 async function initBot() {
-  if (!TOKEN_ENDPOINT || TOKEN_ENDPOINT === 'YOUR_TOKEN_ENDPOINT_HERE') {
-    runDemoMode();
-    return;
-  }
-
   setStatus('verbinding maken…');
   try {
     const res = await fetch(TOKEN_ENDPOINT);
@@ -768,7 +756,6 @@ async function initBot() {
     dl = new DirectLine.DirectLine({ token });
 
     dl.connectionStatus$.subscribe(status => {
-      // 0=Uninitialized 1=Connecting 2=Online 3=ExpiredToken 4=FailedToConnect 5=Ended
       const labels = ['initialiseren', 'verbinden', 'online', 'sessie verlopen', 'verbinding mislukt', 'beëindigd'];
       setStatus(labels[status] || 'onbekend');
     });
@@ -797,8 +784,7 @@ async function initBot() {
 
   } catch (err) {
     console.error('Bot connection error:', err);
-    setStatus('offline');
-    setTimeout(runDemoMode, 600);
+    setStatus('verbinding mislukt');
   }
 }
 
@@ -838,34 +824,6 @@ document.getElementById('waInput').addEventListener('input', function() {
   this.style.height = Math.min(this.scrollHeight, 100) + 'px';
 });
 
-// ═══════════════════════════════════════════════════════
-//  Demo mode — loopt als er geen token endpoint is
-// ═══════════════════════════════════════════════════════
-
-async function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-async function runDemoMode() {
-  setStatus('online · demo');
-  document.getElementById('agentName').textContent = AGENT_NAME;
-  document.getElementById('agentAvatar').textContent = AGENT_INITIALS;
-
-  await delay(700);
-  showTyping();
-  await delay(1100);
-  addBubble('Goedemiddag! 👋 U spreekt met het digitale serviceteam van Cegeka. Waarmee kan ik u helpen?', 'incoming');
-
-  await delay(400);
-  renderSuggestions([
-    { title: 'Afspraak maken',       value: 'Ik wil een afspraak maken' },
-    { title: 'Status melding',       value: 'Wat is de status van mijn melding?' },
-    { title: 'Nieuwe aanvraag',      value: 'Ik wil een nieuwe aanvraag indienen' },
-    { title: 'Iets anders',          value: 'Ik heb een andere vraag' },
-  ]);
-}
-
-// ═══════════════════════════════════════════════════════
-//  Init
-// ═══════════════════════════════════════════════════════
 initBot();
 </script>
 </body>
